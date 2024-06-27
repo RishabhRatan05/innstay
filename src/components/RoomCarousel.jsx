@@ -1,6 +1,7 @@
 'use client'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import Image from "next/image";
 
 export default function(){
   return(
@@ -17,14 +18,14 @@ export default function(){
         className=""
                 >
                 <div>
-                    <img src="room.jpeg"  className="w-full h-80"/>
+                    <Image src="room.jpeg"  alt='room' className="w-full h-80"/>
                     
                 </div>
                 <div>
-                    <img src="room2.avif" className="w-full h-80" />
+                    <Image src="room2.avif" alt='room' className="w-full h-80" />
                 </div>
                 <div>
-                    <img src="room3.avif"  className="w-full h-80"/>
+                    <Image src="room3.avif" alt='room' className="w-full h-80"/>
                 </div>
             </Carousel>
 
