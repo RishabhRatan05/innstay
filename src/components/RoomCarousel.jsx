@@ -3,7 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from 'react-responsive-carousel';
 import Image from "next/image";
 
-export default function(){
+export default function RoomCarousel(){
   return(
         <>
         <Carousel
