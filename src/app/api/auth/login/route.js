@@ -19,7 +19,7 @@ export const POST = async (req, res) => {
     if (!isValidUser) return new Response({ msg: "Invalid credentials" })
     const { name } = user[0]
 
-    const token = await genToken(name, email)
+    const token = await genToken( email)
 
     return new Response(JSON.stringify(token),{
         headers:{

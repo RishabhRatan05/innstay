@@ -38,6 +38,7 @@ const Page = () => {
     });
     console.log('res',res)
     const urlgot = await res.url
+    console.log('urlogt',urlgot)
     await setRoom(prev=>({...prev,url:urlgot}))
       }
   }

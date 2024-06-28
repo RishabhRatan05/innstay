@@ -4,8 +4,8 @@ import Room from "@/lib/models/room"
 import { headers } from "next/headers"
 import jwt from 'jsonwebtoken'
 
-const getEmail=async(token)=>{
-    const {email} = await jwt.verify(token,process.env.JSON_SECRET)
+const getEmail=(token)=>{
+    const email =  jwt.verify(token,process.env.JSON_SECRET)
     return email
 }
 
@@ -19,11 +19,11 @@ export const POST = async(req,res)=>{
         await connectDB()
         
         const email =await getEmail(token)
-        const user = await User.find({email})
-        console.log('user',user)
+        const user = await User.find({email:email})
+        // console.log('user',user)
         const {_id}  = user
 
-      const room = await Room.create({title,desc,url,owner:_id,location,wifi:wifi=='on'?true:false,shower:shower=='on'?true:false,food:food=='on'?true:false})
+      const room = await Room.create({title,desc,url,owner:_id,location,wifi:wifi?true:false,shower:shower?true:false,food:food?true:false})
 
       console.log('room',room)
       if(room) return new Response({
@@ -34,6 +34,6 @@ export const POST = async(req,res)=>{
 
 
     } catch (error) {
-        return new Error("Could not create room")
+        return new Response("Could not create room",error)
     }
 }

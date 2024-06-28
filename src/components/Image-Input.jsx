@@ -129,6 +129,8 @@ const SingleImageDropzone = React.forwardRef(
             <Image
               className="h-full w-full rounded-md object-cover"
               src={imageUrl}
+              width={40}
+              height={40}
               alt={acceptedFiles[0]?.name}
             />
           ) : (
