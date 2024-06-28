@@ -6,8 +6,7 @@ import { useEdgeStore } from '@/lib/edgestore';
 import { SingleImageDropzone } from '@/components/Image-Input';
 import { useRouter } from 'next/navigation';
 
-import dynamic from 'next/dynamic'
- 
+
 
 
 const Page = () => {
@@ -17,11 +16,10 @@ const Page = () => {
   const { edgestore } = useEdgeStore();
   const router = useRouter()
 
-const DynamicHeader = dynamic(() => setToken(localStorage.getItem('token')), {
-  ssr: false,
-})
-
-DynamicHeader()
+  useEffect(()=>{
+    if(typeof window!=='undefined')
+      setToken(localStorage.getItem('token'))
+  },[])
 
 
   const handleChange=(e)=>{

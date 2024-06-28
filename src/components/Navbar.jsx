@@ -1,14 +1,19 @@
 'use client'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Navbar = () => {
-    const token = localStorage.getItem('token')
+    const [token, setToken] = useState()
+    useEffect(()=>{
+    if(typeof window!=='undefined')
+        setToken(localStorage.getItem('token'))
+    },[])
     const isAdmin = true
     const isUser = token?true:false
     const [isOpen , setIsOpen] = useState(false)
     const [isOpen2 , setIsOpen2] = useState(false)
     const handleLogout=()=>{
+    if(typeof window!=='undefined')
         localStorage.removeItem('token')
     }
   return (

@@ -27,7 +27,8 @@ const Login = () => {
     if(data.status===500){alert('Invalid credentials')}
     else{
     const res = await data.json()
-    localStorage.setItem('token',res)
+    if(typeof window!=='undefined')
+      localStorage.setItem('token',res)
     router.replace('/')
     }
   }
