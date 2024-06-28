@@ -24,8 +24,8 @@ export const POST = async(req,res)=>{
         const {_id}  = user[0]
 
       const room = await Room.create({title,desc,url,owner:_id,location,wifi:wifi?true:false,shower:shower?true:false,food:food?true:false})
-
-      console.log('room',room)
+      
+      await User.findByIdAndUpdate(_id, { $push: { rooms: room._id } })
 
       if(room==[]) return new Response({status:500,message:"Could not create room"}) 
       
