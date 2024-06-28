@@ -13,27 +13,23 @@ const RoomSchema = mongoose.Schema({
     desc:{
         type:String
     },
-    images:[{
+    imageUrl:{
         type:String
-    }],
+    },
     owner:{
         type: mongoose.Types.ObjectId,
         ref: 'user'
     },
-    facilities:{
-        wifi:{
-            type:Boolean,
-            default:false
-        },
-        shower:{
-            type:Boolean,
-            default:false
-        },
-        furnished:{
-            type:Boolean,
-            default:false
-        }
+    wifi:{
+        type:Boolean,
+        default:false
+    },
+    shower:{
+        type:Boolean,
+        default:false
     }
 })
 
-export default Room = mongoose.model('room',RoomSchema)
+const Room = mongoose.models.Room mongoose.model('Room',RoomSchema)
+
+export default Room

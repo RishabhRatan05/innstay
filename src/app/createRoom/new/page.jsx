@@ -1,21 +1,59 @@
 'use client'
 import Navbar from '@/components/Navbar'
-import { UploadButton } from '@/utils/uploadthing'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useEdgeStore } from '@/lib/edgestore';
+import { SingleImageDropzone } from '@/components/Image-Input';
+import { useRouter } from 'next/navigation';
+
 const Page = () => {
-  const [room,setRoom] = useState()
+  const [file,setFile] =useState()
+  const [room,setRoom] =useState()
+  const { edgestore } = useEdgeStore();
+  const router = useRouter()
+  const token= localStorage.getItem('token')
+
 
   const handleChange=(e)=>{
     setRoom((prev)=>({...prev,
       [e.target.name]:e.target.value
     }))
   }
-  const handleSubmit=(e)=>{
-    e.preventDefault()
 
-    console.log('room',room)
+  const handleImageUpload=async()=>{
+      if (file) {
+    const res = await  edgestore.publicFiles.upload({
+      file,
+      // onProgressChange: (progress) => {
+      //   console.log(progress);
+      // },
+    });
+    console.log('res',res)
+    const urlgot = await res.url
+    await setRoom(prev=>({...prev,url:urlgot}))
+      }
   }
+  const handleSubmit= async(e)=>{
+    e.preventDefault()
+    console.log('files',file)
+    await handleImageUpload()
+    
+    console.log('room',room)
+
+      const res = await fetch('/api/room',{
+        method:"POST",
+        headers:{
+          'Content-Type':"application/json",
+          'Authorization':token
+        },
+        body:JSON.stringify(room)
+      })
+    if(res.status==201) router.push('/createRoom')
+    else{
+      alert('Something went wrong')
+  }
+
+    }
   return (
     <div>      
       <Navbar/>
@@ -32,30 +70,25 @@ const Page = () => {
       <h1 className='text-6xl mb-2'>
         Create You own Room
       </h1> 
-      <form className='flex flex-col bg-kalar-600 p-3 w-full h-fit ' onSubmit={handleSubmit}> 
-        <label>Image 1</label>
-        <input type='file'></input>
-        <label>Image 2</label>
-        <input type='file'></input>
-              <UploadButton
-        endpoint="imageUploader"
-        onClientUploadComplete={(res) => {
-          // Do something with the response
-          console.log("Files: ", res);
-          alert("Upload Completed");
-        }}
-        onUploadError={(error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
-        }}
-      />
-
-        <label>Image 4</label>
-        <input type='file'></input>
+      <form className='flex flex-col bg-kalar-800 p-3 w-full h-fit text-kalar-100' onSubmit={handleSubmit}> 
         <label > Title</label>
-        <input name='title' onChange={handleChange}></input>
+        <input name='title' onChange={handleChange} required={true} className='text-black text-2xl'></input>
+        <label > Location</label>
+        <input name='location' onChange={handleChange} required={true} className='text-black text-2xl'></input>
         <label>Desc</label>
-        <textarea name='desc' onChange={handleChange}></textarea>
+        <textarea name='desc' onChange={handleChange} required={true} className='text-black text-2xl'></textarea>
+        <div>
+
+        <label>Image 1</label>
+      <SingleImageDropzone
+        width={5}
+        height={5}
+        value={file}
+        onChange={(file) => {
+          setFile(file);
+        }}  
+      />
+        </div>
         <label>Facilities</label>
         <div className='flex justify-between'>
 
