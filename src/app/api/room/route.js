@@ -21,7 +21,7 @@ export const POST = async(req,res)=>{
         const email = getEmail(token)
         const user = await User.find({email:email})
         // console.log('user',user)
-        const {_id}  = user
+        const {_id}  = user[0]
 
       const room = await Room.create({title,desc,url,owner:_id,location,wifi:wifi?true:false,shower:shower?true:false,food:food?true:false})
 
