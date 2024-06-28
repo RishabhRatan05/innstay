@@ -4,7 +4,7 @@ import Room from "@/lib/models/room"
 import { headers } from "next/headers"
 import jwt from 'jsonwebtoken'
 
-const useToken=async(token)=>{
+const getEmail=async(token)=>{
     const {email} = await jwt.verify(token,process.env.JSON_SECRET)
     return email
 }
@@ -18,7 +18,7 @@ export const POST = async(req,res)=>{
     try {
         await connectDB()
         
-        const email =await useToken(token)
+        const email =await getEmail(token)
         const user = await User.find({email})
         console.log('user',user)
         const {_id}  = user
