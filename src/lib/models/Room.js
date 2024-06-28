@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const RoomSchema = mongoose.Schema({
+const RoomSchema = new mongoose.Schema({
     title:{
         type:String,
         required: true
