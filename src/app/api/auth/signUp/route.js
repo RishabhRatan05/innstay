@@ -17,8 +17,8 @@ export async function POST (request, res) {
     if (!name || !email || !password)
       throw new Error({ msg: "enter all fields" })
 
-    const userExist = await User.find({ email:email })
-    if (userExist==[]) throw new Error({ msg: "User already exists" })
+    // const userExist = await User.find({ email:email })
+    // if (userExist==[]) throw new Error({ msg: "User already exists" })
 
     const hashedPass = await bcrypt.hash(password,await bcrypt.genSalt(10))
     const user = await  User.create({ name, email, password: hashedPass })

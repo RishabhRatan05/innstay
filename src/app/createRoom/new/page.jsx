@@ -6,6 +6,7 @@ import { useEdgeStore } from '@/lib/edgestore';
 import { SingleImageDropzone } from '@/components/Image-Input';
 import { useRouter } from 'next/navigation';
 
+
 const Page = () => {
   const [file,setFile] =useState()
   const [room,setRoom] =useState()

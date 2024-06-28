@@ -3,10 +3,14 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 
 const Navbar = () => {
+    const token = localStorage.getItem('token')
     const isAdmin = true
-    const isUser =false
+    const isUser = token?true:false
     const [isOpen , setIsOpen] = useState(false)
     const [isOpen2 , setIsOpen2] = useState(false)
+    const handleLogout=()=>{
+        localStorage.removeItem('token')
+    }
   return (
     <>
     {/* //Desktop */}
@@ -19,7 +23,7 @@ const Navbar = () => {
             <button className='bg-kalar-500 rounded-r-lg px-1 text-black'>search </button>
         </form>
         {isAdmin && <Link href={'/createRoom'}>Create Room</Link>}
-        {isUser? <Link href={'/'}> Logout</Link>:
+        {isUser? <Link href={'/'} onClick={handleLogout}> Logout</Link>:
         <button onClick={()=>setIsOpen2(!isOpen2)}>Menu</button>
         }
     </div>
@@ -48,7 +52,7 @@ const Navbar = () => {
         {isUser?  <Link href={'/profile'}>Profile</Link>:
         <></>
         }
-        {isUser? <Link href={'/'}>Logout</Link>:
+        {isUser? <Link href={'/'} onClick={handleLogout}>Logout</Link>:
         <Link href={'/login'}>Login</Link>
         }
         {isUser? <></>:

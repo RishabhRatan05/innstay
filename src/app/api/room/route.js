@@ -1,5 +1,6 @@
 import connectDB from "@/lib/utils/conn"
-import Room from '@lib/models/room'
+import User from "@/lib/models/user"
+import Room from "@/lib/models/room"
 import { headers } from "next/headers"
 import jwt from 'jsonwebtoken'
 
