@@ -18,7 +18,7 @@ export const POST = async(req,res)=>{
     try {
         await connectDB()
         
-        const email =await getEmail(token)
+        const email = getEmail(token)
         const user = await User.find({email:email})
         // console.log('user',user)
         const {_id}  = user

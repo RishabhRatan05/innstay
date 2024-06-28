@@ -2,32 +2,36 @@ import mongoose from "mongoose";
 
 
 const RoomSchema = new mongoose.Schema({
-    title:{
-        type:String,
-        required: true
-    },
-    location:{
-        type:String,
-        required:true
-    },
-    desc:{
-        type:String
-    },
-    imageUrl:{
-        type:String
-    },
-    owner:{
-        type: mongoose.Types.ObjectId,
-        ref: 'user'
-    },
-    wifi:{
-        type:Boolean,
-        default:false
-    },
-    shower:{
-        type:Boolean,
-        default:false
-    }
+  title: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  desc: {
+    type: String,
+  },
+  url: {
+    type: String,
+  },
+  owner: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
+  food: {
+    type: Boolean,
+    default: false,
+  },
+  wifi: {
+    type: Boolean,
+    default: false,
+  },
+  shower: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const Room = mongoose.models.Room || mongoose.model('Room',RoomSchema)
