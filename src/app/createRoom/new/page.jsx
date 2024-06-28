@@ -1,7 +1,7 @@
 'use client'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useEdgeStore } from '@/lib/edgestore';
 import { SingleImageDropzone } from '@/components/Image-Input';
 import { useRouter } from 'next/navigation';
@@ -10,9 +10,13 @@ import { useRouter } from 'next/navigation';
 const Page = () => {
   const [file,setFile] =useState()
   const [room,setRoom] =useState()
+  const [token,setToken] = useState()
   const { edgestore } = useEdgeStore();
   const router = useRouter()
-  const token= localStorage.getItem('token')
+
+  useEffect(()=>{
+    setToken(localStorage.getItem('token'))
+  })
 
 
   const handleChange=(e)=>{
