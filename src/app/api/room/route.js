@@ -26,7 +26,10 @@ export const POST = async(req,res)=>{
       const room = await Room.create({title,desc,url,owner:_id,location,wifi:wifi?true:false,shower:shower?true:false,food:food?true:false})
 
       console.log('room',room)
-      if(room) return new Response({
+
+      if(room==[]) return new Response({status:500,message:"Could not create room"}) 
+      
+      return new Response({
         status:201,
         message:"Room created"
       })

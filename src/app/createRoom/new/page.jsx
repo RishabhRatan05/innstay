@@ -57,7 +57,7 @@ const Page = () => {
         },
         body:JSON.stringify(room)
       })
-    if(res.status==201) router.push('/createRoom')
+    if(res.status==201) return router.push('/createRoom')
     else{
       alert('Something went wrong')
   }
