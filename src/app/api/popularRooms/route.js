@@ -6,7 +6,7 @@ export const GET = async () => {
   try {
     await connectDB()
 
-    const result = await Room.find().sort({createdAt:'desc'}).limit(5)
+    const result = await Room.find().limit(5)
     return new NextResponse(JSON.stringify(result), {
       status: 200,
     })
