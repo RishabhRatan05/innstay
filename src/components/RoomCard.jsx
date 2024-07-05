@@ -8,7 +8,7 @@ const RoomCard = ({room}) => {
   const router = useRouter()
   const handleRoom=()=>{
     console.log('id',_id)
-    router.push(`room/${_id}`)
+    router.push(`/room/${_id}`)
   }
   return (
     <div onClick={handleRoom} className='sm:grid sm:grid-cols-3 flex flex-col w-full  items-center border-kalar-500 border-2 mt-2 bg-sky-400 sm:text-xl text-white hover:cursor-pointer'>
