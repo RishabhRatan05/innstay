@@ -1,9 +1,13 @@
 'use client'
+import { searchChange } from '@/redux/slices/search'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 const Navbar = () => {
     const [token, setToken] = useState()
+    const router = useRouter()
     useEffect(()=>{
     if(typeof window!=='undefined')
         setToken(localStorage.getItem('token'))
@@ -12,6 +16,15 @@ const Navbar = () => {
     const isUser = token?true:false
     const [isOpen , setIsOpen] = useState(false)
     const [isOpen2 , setIsOpen2] = useState(false)
+    const [search ,setSearch] = useState('')
+    const dispatch = useDispatch()
+
+    const handleSearch=async(e)=>{
+        e.preventDefault()
+        dispatch(searchChange({value:search}))
+        return router.push('/search/1')
+    }
+
     const handleLogout=()=>{
     if(typeof window!=='undefined')
         localStorage.removeItem('token')
@@ -23,9 +36,9 @@ const Navbar = () => {
         <Link href={'/'}>InnStay</Link>
         <Link href={'/'}>Home</Link>
         <form>
-            <input className='bg-kalar-500 rounded-l-lg text-black'>
+            <input className='bg-kalar-500 rounded-l-lg text-black' value={search} name='search' onChange={e=>setSearch(e.target.value)}>
             </input>
-            <button className='bg-kalar-500 rounded-r-lg px-1 text-black'>search </button>
+            <button className='bg-kalar-500 rounded-r-lg px-1 text-black' onClick={handleSearch}>search </button>
         </form>
         {isAdmin && <Link href={'/createRoom'}>Create Room</Link>}
         {isUser? <Link href={'/'} onClick={handleLogout}> Logout</Link>:
@@ -50,7 +63,7 @@ const Navbar = () => {
         <form className='pt-2'>
             <input className='bg-kalar-500 rounded-l-lg focus:border-blue-500'>
             </input>
-            <button className='bg-kalar-500 rounded-r-lg px-1 text-black'>search</button>
+            <button className='bg-kalar-500 rounded-r-lg px-1 text-black' onClick={handleSearch}>search</button>
         </form>
         <Link href={'/'}>Home</Link>    
         {isAdmin && <Link href={'/createRoom'}>Create Room</Link>}

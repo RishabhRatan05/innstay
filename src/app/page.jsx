@@ -1,9 +1,27 @@
+'use client'
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import RoomCard from "@/components/RoomCard";
 import RoomCarousel from "@/components/RoomCarousel";
 import { CardCaraousel } from "@/components/RoomCarousel";
+import { useEffect, useState } from "react";
 export default function Home() {
+
+  const [rooms,setRooms] = useState()
+
+  const getRooms=async()=>{
+      const res = await fetch('api/latestRooms',{
+        method:"GET"
+      })
+      // console.log('res',await res.json())
+      const data = await res.json()
+      setRooms(data)
+  }
+
+
+  useEffect(()=>{
+    getRooms()
+  },[])
   return (
     <div>
       <Navbar />
@@ -15,30 +33,30 @@ export default function Home() {
         
 
       <main className="sm:px-10 h-full text-center bg-kalar-100">
-        <div className="sm:flex sm:justify-between mb-3 items-center">
+        <div className="sm:grid grid-cols-3 mb-3 items-center">
           <div className="sm:text-6xl col-span-1 text-4xl text-kalar-800">
             Popular
           </div>
-          <div className="flex col-span-2 justify-between">
+          <div className=" col-span-2 ">
             <CardCaraousel
-              chidren={
-                <>
-                  {/* <RoomCard /> */}
-                  {/* <RoomCard /> */}
-                </>
-              }
+              chidren={rooms && rooms?.map(room=>{
+                  return(
+                    <RoomCard key={room._id} room={room}/>
+                  )})}
             />
           </div>
         </div>
         <div className="sm:flex sm:flex-row-reverse justify-between  items-center">
-          <div className="sm:text-6xl col-span-1 text-4xl text-kalar-100">Latest</div>
-          <div className="flex col-span-2 justify-between">
+          <div className="sm:text-6xl col-span-1 text-4xl text-kalar-800">Latest</div>
+          <div>
             <CardCaraousel
               chidren={
-                <>
-                  {/* <RoomCard /> */}
-                  {/* <RoomCard /> */}
-                </>
+                <div className="flex col-span-2 justify-between" >{rooms && rooms?.map(room=>{
+                  return(
+                    <RoomCard key={room._id} room={room}/>
+                  )
+                })}
+                </div>
               }
             />
           </div>

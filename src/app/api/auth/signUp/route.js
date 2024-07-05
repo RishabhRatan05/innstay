@@ -17,7 +17,7 @@ export async function POST (request, res) {
     await connectDB()
     
     if (!name || !email || !password)
-      throw new Error({ msg: "enter all fields" })
+      throw new Response('Enter all fields')
 
     // const userExist = await User.find({ email:email })
     // if (userExist==[]) throw new Error({ msg: "User already exists" })
@@ -32,6 +32,6 @@ export async function POST (request, res) {
       },
     })
   } catch (error) {
-    console.error(error)
+    return new Response(error,{status:500})
   }
 }

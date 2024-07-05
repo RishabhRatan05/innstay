@@ -1,31 +1,38 @@
 'use client'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import {  useEffect, useState } from 'react'
 import { useEdgeStore } from '@/lib/edgestore';
 import { SingleImageDropzone } from '@/components/Image-Input';
 import { useRouter } from 'next/navigation';
-
-
+import { useSelector } from 'react-redux';
 
 
 const Page = () => {
+  const editRoom = useSelector(state=>state.editRoom)
+  console.log('editRoom',editRoom)
+  const [fetch,setFetch] =useState(false)
+  const {_id} = editRoom
   const [file,setFile] =useState()
-  const [room,setRoom] =useState()
-  const [token,setToken] = useState()
+  const [room,setRoom] =useState({
+    title: editRoom.title,
+    desc:editRoom.desc,
+    food:editRoom.food,
+    wifi:editRoom.wifi,
+    shower:editRoom.shower,
+    location:editRoom.location,
+    price:editRoom.price,
+    url:editRoom.url
+  })
+  console.log('room',room)
   const { edgestore } = useEdgeStore();
   const router = useRouter()
 
-  useEffect(()=>{
-    if(typeof window!=='undefined')
-      setToken(localStorage.getItem('token'))
-  },[])
-
 
   const handleChange=(e)=>{
-    setRoom((prev)=>({...prev,
-      [e.target.name]:e.target.value
-    }))
+        setRoom((prev)=>({...prev,
+        [e.target.name]:e.target.value
+        }))
   }
 
   const handleImageUpload=async(e)=>{
@@ -45,22 +52,21 @@ const Page = () => {
   }
   const handleSubmit= async(e)=>{
     e.preventDefault()
-    console.log('files',file)
     console.log('room',room)
 
       const res = await fetch('/api/room',{
-        method:"POST",
+        method:'PUT',
         headers:{
           'Content-Type':"application/json",
-          'Authorization':token
+          'Id':_id
         },
         body:JSON.stringify(room)
       })
     if(res.status==201) router.push('/createRoom')
     else{
       return
-
-  }
+  
+}
 }
   return (
     <div>      
@@ -78,15 +84,15 @@ const Page = () => {
       <h1 className='text-6xl mb-2'>
         Create You own Room
       </h1> 
-      <form className='flex flex-col bg-kalar-800 p-3 w-full h-fit text-kalar-100' onSubmit={handleSubmit}> 
+      <form className='flex flex-col bg-kalar-800 p-3 w-full h-fit text-kalar-100' onSubmit={()=>handleSubmit()}> 
         <label > Title</label>
-        <input name='title' onChange={handleChange} required={true} className='text-black text-2xl'></input>
+        <input name='title' value={room.title} onChange={handleChange} required={true} className='text-black text-2xl'></input>
         <label > Price</label>
-        <input name='price' type='number' onChange={handleChange} required={true} className='text-black text-2xl'></input>
+        <input name='price' value={room.price}  type='number' onChange={handleChange} required={true} className='text-black text-2xl'></input>
         <label > Location</label>
-        <input name='location' onChange={handleChange} required={true} className='text-black text-2xl'></input>
+        <input name='location' value={room.location}  onChange={handleChange} required={true} className='text-black text-2xl'></input>
         <label>Desc</label>
-        <textarea name='desc' onChange={handleChange} required={true} className='text-black text-2xl'></textarea>
+        <textarea name='desc' value={room.desc}  onChange={handleChange} required={true} className='text-black text-2xl'></textarea>
         <div className='sm:flex justify-between items-center'>
 
         <label>Image</label>
@@ -104,19 +110,18 @@ const Page = () => {
         <div className='flex justify-between'>
 
         <label>Wifi
-        <input type='checkbox' name='wifi' onChange={handleChange}></input>
+        <input type='checkbox' name='wifi'  onChange={handleChange}></input>
         </label>        
         <label>Food
-        <input type='checkbox' name='food' onChange={handleChange}></input>
+        <input type='checkbox' name='food' value={room.food} onChange={handleChange}></input>
         </label>        
         <label>Shower
-        <input type='checkbox' name='shower' onChange={handleChange}></input>
+        <input type='checkbox' name='shower' value={room.shower} onChange={handleChange}></input>
         </label>
         </div>
-        <button className='bg-kalar-800 text-white' type='submit'>Create</button>
+        <button className='bg-kalar-800 text-white' type='submit'>Update</button>
       </form>
       </div>
-      
       </main>
     </div>
   )

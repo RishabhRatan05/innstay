@@ -2,12 +2,11 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import Image from "next/image";
-
 export default function RoomCarousel(){
   return(
         <>
         <Carousel
-                        showThumbs={false} 
+        showThumbs={false} 
         infiniteLoop ={true}
         // autoPlay ={true}
         interval={5000}
@@ -34,10 +33,18 @@ export default function RoomCarousel(){
 }
 
 export const CardCaraousel= ({chidren})=>{
+
     return (
         <Carousel
-            infiniteLoop={true}
-            className=""
+        showThumbs={false} 
+        infiniteLoop ={true}
+        // autoPlay ={true}
+        interval={5000}
+        showArrows={true}
+        showStatus={false}
+        stopOnHover={true}
+        preventMovementUntilSwipeScrollTolerance	={true}
+        className=""
         >
             {chidren}
         </Carousel>

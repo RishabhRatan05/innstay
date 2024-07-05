@@ -32,6 +32,10 @@ const RoomSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  price:{
+    type:Number,
+    required:true
+  }
 })
 
 const Room = mongoose.models.Room || mongoose.model('Room',RoomSchema)
