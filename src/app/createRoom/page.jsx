@@ -43,7 +43,6 @@ const Page = () => {
       <div className='col-span-5'>
         <h1 className='text-6xl'>All rooms</h1>
       {rooms && rooms?.map(room=>{
-        {console.log('room',room)}
         return(
           <RoomCardAdmin key={room._id} room={room}/>
         )

@@ -49,7 +49,6 @@ const Page = () => {
       }
   }
   const handleSubmit= async(e)=>{
-    console.log('room',room)
     e.preventDefault()
     try {  
       const res = await axios({
@@ -64,7 +63,7 @@ const Page = () => {
       
     if(res.status==201) router.push('/createRoom')
     } catch (error) {
-      console.log('f',error)
+      console.log(error)
     }
 
 }
