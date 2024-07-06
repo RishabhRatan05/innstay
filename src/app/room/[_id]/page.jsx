@@ -29,7 +29,6 @@ const Room = () => {
   },[])
   useEffect(()=>{
     setRoom(data)
-    console.log(data)
   },[data])
 
   return (

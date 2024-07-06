@@ -5,7 +5,6 @@ import { NextResponse } from "next/server"
 
 export const GET = async (searchParams) => {
     const page= searchParams.url.split('/').slice(-1)[0]
-    console.log('page',page)
   try {
     await connectDB()
     const result = await Room.find()
@@ -42,7 +41,6 @@ export const POST = async (req) => {
   if (food)queryObject.food= true
   try {
     await connectDB()
-    console.log('q',queryObject)
     const result = await Room.find(queryObject)
     const totalPage = Math.ceil(result.length / 10)
     const startInd = (page - 1) * 10

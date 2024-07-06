@@ -2,6 +2,7 @@
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
 import {  useEffect, useState } from 'react'
+import axios from 'axios'
 import { useEdgeStore } from '@/lib/edgestore';
 import { SingleImageDropzone } from '@/components/Image-Input';
 import { useRouter } from 'next/navigation';
@@ -10,8 +11,8 @@ import { useSelector } from 'react-redux';
 
 const Page = () => {
   const editRoom = useSelector(state=>state.editRoom)
-  console.log('editRoom',editRoom)
   const [fetch,setFetch] =useState(false)
+  const [progress,setProgress] = useState()
   const {_id} = editRoom
   const [file,setFile] =useState()
   const [room,setRoom] =useState({
@@ -24,7 +25,6 @@ const Page = () => {
     price:editRoom.price,
     url:editRoom.url
   })
-  console.log('room',room)
   const { edgestore } = useEdgeStore();
   const router = useRouter()
 
@@ -40,33 +40,33 @@ const Page = () => {
       if (file) {
     const res = await  edgestore.publicFiles.upload({
       file,
-      // onProgressChange: (progress) => {
-      //   console.log(progress);
-      // },
+      onProgressChange: (progress) => {
+        setProgress(progress)
+      },
     });
-    console.log('res',res)
     const urlgot = await res.url
-    console.log('urlogt',urlgot)
     await setRoom(prev=>({...prev,url:urlgot}))
       }
   }
   const handleSubmit= async(e)=>{
-    e.preventDefault()
     console.log('room',room)
-
-      const res = await fetch('/api/room',{
-        method:'PUT',
+    e.preventDefault()
+    try {  
+      const res = await axios({
+        method:'put',
+        url:'/api/room',
         headers:{
-          'Content-Type':"application/json",
+         'Content-Type':"application/json",
           'Id':_id
         },
-        body:JSON.stringify(room)
+        data:JSON.stringify(room)
       })
+      
     if(res.status==201) router.push('/createRoom')
-    else{
-      return
-  
-}
+    } catch (error) {
+      console.log('f',error)
+    }
+
 }
   return (
     <div>      
@@ -84,7 +84,7 @@ const Page = () => {
       <h1 className='text-6xl mb-2'>
         Create You own Room
       </h1> 
-      <form className='flex flex-col bg-kalar-800 p-3 w-full h-fit text-kalar-100' onSubmit={()=>handleSubmit()}> 
+      <form className='flex flex-col bg-kalar-800 p-3 w-full h-fit text-kalar-100' onSubmit={handleSubmit}> 
         <label > Title</label>
         <input name='title' value={room.title} onChange={handleChange} required={true} className='text-black text-2xl'></input>
         <label > Price</label>
@@ -100,11 +100,21 @@ const Page = () => {
         width={5}
         height={5}
         value={file}
+        dropzoneOptions={{
+          maxSize:1024*1024*4
+        }}
         onChange={(file) => {
           setFile(file);
         }}  
-      />
-      <button className='text-kalar-800 bg-white w-fit h-full p-1' onClick={handleImageUpload}>Upload</button>
+      />      
+      <div>
+        <div className='h-[6px] w-29 rounded overflow-hidden border'>
+          <div className='bg-white h-full transition-all duration-150' style={{width:`${progress}%`}}></div>
+        </div>
+      <button className='text-kalar-800 bg-white rounded mt-2 w-fit h-full px-1' onClick={handleImageUpload}>
+        {progress==100?<div>Uploaded</div>:<div>Upload</div>}
+      </button>
+      </div>
         </div>
         <label>Facilities</label>
         <div className='flex justify-between'>

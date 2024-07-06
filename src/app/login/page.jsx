@@ -23,7 +23,6 @@ const Login = () => {
         password:user.password
       })
     })
-    console.log('data',data)
     if(data.status===500){alert('Invalid credentials')}
     else{
     const res = await data.json()

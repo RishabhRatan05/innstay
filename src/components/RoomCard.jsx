@@ -7,7 +7,6 @@ const RoomCard = ({room}) => {
   const {title, desc, food, wifi, shower, location,price, url,_id} = room
   const router = useRouter()
   const handleRoom=()=>{
-    console.log('id',_id)
     router.push(`/room/${_id}`)
   }
   return (

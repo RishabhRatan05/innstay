@@ -44,7 +44,6 @@ export const POST = async(req,res)=>{
         
         const email = getEmail(token)
         const user = await User.find({email:email})
-        // console.log('user',user)
         const {_id}  = user[0]
 
       const room = await Room.create({title,desc,url,price,owner:_id,location,wifi:wifi?true:false,shower:shower?true:false,food:food?true:false})
@@ -68,10 +67,8 @@ export const POST = async(req,res)=>{
 export const PUT = async (req, res) => {
   const { title, desc, url, wifi, shower, food, location, price } =
     await req.json()
-  console.log('title',title)
   const headersList = headers()
   const id = headersList.get("id")
-
   try {
     await connectDB()
 
@@ -80,7 +77,6 @@ export const PUT = async (req, res) => {
       desc:desc,
       url:url,
       price:price,
-      owner: _id,
       location:location,
       wifi: wifi ? true : false,
       shower: shower ? true : false,
@@ -88,16 +84,16 @@ export const PUT = async (req, res) => {
     })
 
     if (room == [])
-      return new Response({ status: 500, message: "Could not update room" })
+      return new Response("Could not update room" ,{status:501})
 
     return new Response(
       {
         message: "Room Updated",
       },
-      { status: 200 }
+      { status: 201 }
     )
   } catch (error) {
-    return new Response("Could not update room", error)
+    return new Response(error,{status:500})
   }
 }
 

@@ -26,7 +26,7 @@ const SignUp = () => {
         password:user.password
       })
     })
-    if(data.status===500){console.log('Invalid credentials')}
+    if(data.status===500){alert('Invalid credentials')}
     else{
     const res = await data.json()
     localStorage.setItem('token',res)

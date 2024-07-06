@@ -5,7 +5,6 @@ import { NextResponse } from "next/server"
 
 export const GET = async (req) => {
   const id = req.url.split('/').slice(-1)[0]
-  console.log('id',id)
   try {
     await connectDB()
     const room = await Room.findById(id)  

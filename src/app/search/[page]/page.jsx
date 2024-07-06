@@ -17,7 +17,6 @@ const Search = () => {
   const [isFilter,setIsFilter] = useState(false)
   const [price,setPrice] = useState()
   const search = useSelector(state=>state.search).value
-  console.log('search',search)
   useEffect(()=>{
     const a = Number(filters.price)
     setPrice(a.toLocaleString())
@@ -33,7 +32,6 @@ const Search = () => {
   const router = useRouter()
 
   const handleChange=(e)=>{
-    console.log(e.target.value,e.target.name)
     if(e.target.name=='price'){
       setFilters((prev)=>({...prev,
         [e.target.name]:e.target.value
@@ -84,7 +82,6 @@ const Search = () => {
   useEffect(()=>{
     const newPage = pageNo
     setPage(newPage)
-    console.log(page)
   },[pageNo])
 
   const getAllRooms=async()=>{
@@ -94,7 +91,6 @@ const Search = () => {
     const result = await res.json()
     const data = await result.data
     const pageLength = await result.totalPage
-    console.log('pa',pageLength)
     setTotalPage(pageLength)
     setRooms(data)
   }
@@ -120,7 +116,7 @@ const Search = () => {
   return (
     <div>
       <Navbar/>
-     <main className='sm:grid grid-cols-7 bg-slate-400'>
+     <main className='sm:grid grid-cols-7 bg-kalar-100'>
       <aside className=' col-span-1 sm:flex sm:flex-col justify-between sm:h-screen sm:justify-start flex-wrap sm:p-2 sm:h-full flex bg-kalar-700 gap-1 sm:w-fit w-full'>
         <p>Filters</p>
         <p>Price</p>

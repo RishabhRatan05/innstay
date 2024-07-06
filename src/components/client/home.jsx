@@ -15,7 +15,6 @@ export const PopularRooms =()=>{
         const res = await fetch('api/popularRooms',{
             method:"GET"
         })
-        // console.log('res',await res.json())
         const data = await res.json()
         setRooms(data)
     }
@@ -42,7 +41,6 @@ export const LatestRooms=()=>{
         const res = await fetch('api/popularRooms',{
             method:"GET"
         })
-        // console.log('res',await res.json())
         const data = await res.json()
         setRooms(data)
     }

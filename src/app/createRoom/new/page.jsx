@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 const Page = () => {
   const [file,setFile] =useState()
   const [room,setRoom] =useState()
+  const [progress,setProgress] =useState()
   const [token,setToken] = useState()
   const { edgestore } = useEdgeStore();
   const router = useRouter()
@@ -33,20 +34,16 @@ const Page = () => {
       if (file) {
     const res = await  edgestore.publicFiles.upload({
       file,
-      // onProgressChange: (progress) => {
-      //   console.log(progress);
-      // },
+      onProgressChange: (progress) => {
+        setProgress(progress)
+      },
     });
-    console.log('res',res)
     const urlgot = await res.url
-    console.log('urlogt',urlgot)
     await setRoom(prev=>({...prev,url:urlgot}))
       }
   }
   const handleSubmit= async(e)=>{
     e.preventDefault()
-    console.log('files',file)
-    console.log('room',room)
 
       const res = await fetch('/api/room',{
         method:"POST",
@@ -73,6 +70,8 @@ const Page = () => {
         <Link href={'/createRoom/'}>All rooms</Link>
         <Link href={'/createRoom/new'}>New</Link>
       </aside>
+
+      {token?
       <div className='m-2 sm:flex justify-between items-center col-span-5'>
 
       <h1 className='text-6xl mb-2'>
@@ -91,14 +90,25 @@ const Page = () => {
 
         <label>Image</label>
       <SingleImageDropzone
-        width={5}
-        height={5}
+        width={200}
+        height={200}
         value={file}
+        dropzoneOptions={{
+          maxSize:1024*1024*4
+        }}
         onChange={(file) => {
           setFile(file);
         }}  
       />
-      <button className='text-kalar-800 bg-white w-fit h-full p-1' onClick={handleImageUpload}>Upload</button>
+      <div>
+        <div className='h-[6px] w-29 rounded overflow-hidden border'>
+          <div className='bg-white h-full transition-all duration-150' style={{width:`${progress}%`}}></div>
+        </div>
+
+      <button className='text-kalar-800 bg-white rounded mt-2 w-fit h-full px-1' onClick={handleImageUpload}>
+        {progress==100?<div>Uploaded</div>:<div>Upload</div>}
+      </button>
+      </div>
         </div>
         <label>Facilities</label>
         <div className='flex justify-between'>
@@ -116,6 +126,9 @@ const Page = () => {
         <button className='bg-kalar-800 text-white' type='submit'>Create</button>
       </form>
       </div>
+      :
+      <div className='text-4xl'>Login First to create new Room</div>
+      }
       
       </main>
     </div>

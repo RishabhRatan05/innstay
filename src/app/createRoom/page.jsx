@@ -8,7 +8,6 @@ const Page = () => {
   const [rooms,setRooms] = useState()
   const getAllPosts=async()=>{
     if(token){
-      console.log('fetching')
     const res = await fetch('api/room',{
       method:"GET",
       headers:{
@@ -39,14 +38,21 @@ const Page = () => {
         <Link href={'/createRoom/new'}>New</Link>
       </aside>
 
+      {token &&
+        token?
       <div className='col-span-5'>
         <h1 className='text-6xl'>All rooms</h1>
       {rooms && rooms?.map(room=>{
+        {console.log('room',room)}
         return(
           <RoomCardAdmin key={room._id} room={room}/>
         )
         })}
-      </div>
+      </div>:
+      <div className='text-4xl'>Login First to see all rooms</div>
+
+      }
+
       </main>
     </div>
   )

@@ -28,6 +28,6 @@ export const POST = async (req, res) => {
     })
 }
   } catch (error) {
-    console.error(error)
+    return new Response(error,{status:500})
   }
 }
