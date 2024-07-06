@@ -30,7 +30,7 @@ const Page = () => {
   return (
     <div>      
       <Navbar/>
-<main className='sm:grid grid-cols-7 gap-2'>
+<main className='sm:grid grid-cols-7 gap-2 bg-kalar-100'>
       <aside className=' col-span-1 sm:flex sm:flex-col justify-between sm:h-screen sm:justify-start flex-wrap sm:p-2 sm:h-full flex bg-kalar-700 gap-1 text-2xl w-full'>
         Profile
         email

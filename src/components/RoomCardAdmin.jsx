@@ -1,5 +1,7 @@
 'use client'
 import {valueChange} from '@/redux/slices/updateRoom'
+import { faShower, faUtensils, faWifi } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -26,7 +28,7 @@ const RoomCardAdmin = ({room}) => {
     return
   }
   return (
-    <div className='sm:grid grid-cols-8 pr-2 flex flex-col w-full  items-center border-kalar-500 border-2 mt-2 bg-sky-400 sm:text-xl text-white'>
+    <div className='sm:grid grid-cols-8 pr-2 flex flex-col w-full  items-center border-kalar-500 border-2 mt-2 bg-kalar-200 sm:text-xl text-white'>
         <div className='w-full h-full p-2 col-span-2'>
           <Image src={url?url:'/room.jpeg'} alt="room" width={100} height={40} className='w-full h-40'></Image>
         </div>
@@ -39,8 +41,12 @@ const RoomCardAdmin = ({room}) => {
         <div className=''>{location}</div>
         <div>{desc}
         </div>
+        <div className='flex sm:gap-4 gap-2'>
         <div>Facilities</div>
-
+        <div>{food && <FontAwesomeIcon icon={faUtensils}></FontAwesomeIcon>}</div>
+        <div>{shower && <FontAwesomeIcon icon={faShower}></FontAwesomeIcon>}</div>
+        <div>{wifi && <FontAwesomeIcon icon={faWifi}></FontAwesomeIcon>}</div>
+        </div>
         </div>
         <div className='col-span-1 flex flex-col justify-between gap-4 '>
             <button className='bg-black' onClick={handleEdit}>Edit</button>
